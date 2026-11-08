@@ -17,6 +17,9 @@ oracle-freelance-lab/
 ├── README.md
 ├── BENCHMARKS.md
 ├── setup.sql
+├── tests/
+│   ├── validate_objects.sql
+│   └── smoke_test.sql
 └── sql/
     ├── 01_customers.sql
     ├── 02_orders.sql
@@ -40,7 +43,16 @@ oracle-freelance-lab/
 
 The `setup.sql` script invokes files using relative `@@sql/...` paths. The table dependencies are ordered `CUSTOMERS` → `ORDERS` → `ORDER_STATUS_HISTORY`; the package and trigger are created after their dependencies.
 
-After setup, check object compilation and constraints in Oracle. This portable copy **has not yet been independently compiled or clean-install tested**; it was prepared from verified source DDL. The original database remains untouched.
+After setup, verify the schema and run smoke tests (from the project root in SQLcl or SQL Developer Run Script mode):
+
+```sql
+@tests/validate_objects.sql
+@tests/smoke_test.sql
+```
+
+`validate_objects.sql` should list **7 VALID rows** (four tables, package specification, package body, trigger), followed by zero compiler errors. `smoke_test.sql` creates synthetic test rows, checks order creation, payment, credit balance, audit history and cancellation prevention, and then **rolls back** its test data. Run it only in a new disposable schema, never in the original `FREELANCE_LAB`. A successful run will print two `PASS` lines. The portfolio has **not yet been independently clean-installed and smoke-tested** because the development laptop is offline.
+
+The original database remains untouched.
 
 ### Migration demo
 
