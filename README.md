@@ -16,6 +16,7 @@ A small Oracle SQL/PLSQL portfolio project demonstrating customer/order workflow
 oracle-freelance-lab/
 ├── README.md
 ├── BENCHMARKS.md
+├── TEST_RESULTS.md
 ├── setup.sql
 ├── tests/
 │   ├── validate_objects.sql
@@ -35,13 +36,13 @@ oracle-freelance-lab/
 
 ## Setup (in a new, disposable Oracle schema only)
 
-**Do not execute `setup.sql` in `FREELANCE_LAB` or any existing schema.** It creates objects and is not an upgrade script. With a separate clean Oracle test user connected in SQLcl or SQL Developer **Run Script** mode, execute:
+**Do not execute `setup.sql` in `FREELANCE_LAB` or any existing schema.** It creates objects and is not an upgrade script. Create an empty disposable Oracle test user with a quota on its tablespace and the `CREATE SESSION`, `CREATE TABLE`, `CREATE SEQUENCE`, `CREATE PROCEDURE`, and `CREATE TRIGGER` privileges. Connect as that new user using SQLcl or SQL Developer **Run Script** mode. From the repository root, execute:
 
 ```sql
 @setup.sql
 ```
 
-The `setup.sql` script invokes files using relative `@@sql/...` paths. The table dependencies are ordered `CUSTOMERS` → `ORDERS` → `ORDER_STATUS_HISTORY`; the package and trigger are created after their dependencies.
+**Use the repository root as the current working directory**, particularly with SQL*Plus; running an absolute `@setup.sql` from another directory can fail to locate the `@@` includes. The `setup.sql` script invokes files using relative `@@sql/...` paths. The table dependencies are ordered `CUSTOMERS` → `ORDERS` → `ORDER_STATUS_HISTORY`; the package and trigger are created after their dependencies.
 
 After setup, verify the schema and run smoke tests (from the project root in SQLcl or SQL Developer Run Script mode):
 
@@ -50,7 +51,7 @@ After setup, verify the schema and run smoke tests (from the project root in SQL
 @tests/smoke_test.sql
 ```
 
-`validate_objects.sql` should list **7 VALID rows** (four tables, package specification, package body, trigger), followed by zero compiler errors. `smoke_test.sql` creates synthetic test rows, checks order creation, payment, credit balance, audit history and cancellation prevention, and then **rolls back** its test data. Run it only in a new disposable schema, never in the original `FREELANCE_LAB`. A successful run will print two `PASS` lines. The portfolio has **not yet been independently clean-installed and smoke-tested** because the development laptop is offline.
+`validate_objects.sql` should list **7 VALID rows** (four tables, package specification, package body, trigger), followed by zero compiler errors. `smoke_test.sql` creates synthetic test rows, checks order creation, payment, credit balance, audit history and cancellation prevention, and then **rolls back** its test data. Run it only in a new disposable schema, never in the original `FREELANCE_LAB`. A successful run will print two `PASS` lines. The complete setup and smoke test **passed on 08/11/2026** in an isolated Oracle Free 26ai schema. See [TEST_RESULTS.md](TEST_RESULTS.md) for exact scope and output.
 
 The original database remains untouched.
 
@@ -66,7 +67,7 @@ The migration prevents duplicates on ordinary **sequential** reruns when normali
 
 ## Oracle development evidence
 
-In the local Oracle Database Free 26ai training environment, the user reported valid objects and tested error handling, row locking, a 2-row migration followed by a 0-row sequential rerun, and a full-scan/index benchmark. See [BENCHMARKS.md](BENCHMARKS.md). These are local exercise results, not independent clean-install or production certification.
+In the local Oracle Database Free 26ai training environment, the user reported valid objects and tested error handling, row locking, a 2-row migration followed by a 0-row sequential rerun, and a full-scan/index benchmark. See [BENCHMARKS.md](BENCHMARKS.md). The portable schema was also independently clean-installed and smoke-tested on 08/11/2026, with a `PASS` result for object validity and core order/payment operations. That test does not imply production certification or a full migration regression test.
 
 ## Portability and security notes
 
