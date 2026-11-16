@@ -2,6 +2,18 @@
 
 A small Oracle SQL/PLSQL portfolio project demonstrating customer/order workflows, row locking, validation, audit history, staging-table migration, and index performance analysis.
 
+## About the developer
+
+I have approximately six years of professional Oracle development experience, including Oracle Forms, Reports, SQL/PLSQL, and enterprise application maintenance, followed by extensive experience in IT systems administration.
+
+Recently, I built and tested a hands-on Oracle Database Free portfolio project demonstrating PL/SQL packages, transaction handling, audit triggers, data validation, and staged data migration using `MERGE`.
+
+**My strongest areas for freelance assignments are:**
+
+- **PL/SQL Development & Bug Fixing** — Procedures, packages, functions, triggers, and existing code maintenance.
+- **Oracle Forms & Reports Maintenance** — Legacy application troubleshooting, bug fixing, and business logic analysis.
+- **SQL Data Cleanup & Migration** — Data validation, deduplication, staging tables, and `MERGE`-based migration tasks.
+
 ## Features
 
 - `ORDER_PKG`: create orders, update statuses, and pay orders using credit validation, `SELECT ... FOR UPDATE`, a savepoint, and error handling.
