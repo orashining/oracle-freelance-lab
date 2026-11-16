@@ -4,7 +4,7 @@ A small Oracle SQL/PLSQL portfolio project demonstrating customer/order workflow
 
 ## About the developer
 
-I have approximately six years of professional Oracle development experience, including Oracle Forms, Reports, SQL/PLSQL, and enterprise application maintenance, followed by extensive experience in IT systems administration.
+I have six years of professional Oracle development experience, including Oracle Forms, Reports, SQL/PLSQL, and enterprise application maintenance, followed by extensive experience in IT systems administration.
 
 Recently, I built and tested a hands-on Oracle Database Free portfolio project demonstrating PL/SQL packages, transaction handling, audit triggers, data validation, and staged data migration using `MERGE`.
 
